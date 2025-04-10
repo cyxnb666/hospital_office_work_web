@@ -2,14 +2,11 @@
   <div class="loginIndex" @keydown.enter="onLogin">
     <div class="loginImg"></div>
     <div class="loginBox">
-      <!--      <div class="loginLogo">-->
-      <!--        <img class="loginLogoImg" src="../../assets/images/loginLogo.png" alt=""></img>-->
-      <!--      </div>-->
       <div class="loginContent">
         <div class="login">
           <el-card class="box-card">
             <div class="loginTitle">欢迎登录</div>
-            <div class="loginTitle">高泓工作室管理系统</div>
+            <div class="loginTitle">管理系统</div>
             <el-form class="loginForm" label-position="top" :model="loginForm" ref="loginForm" :rules="rules">
               <el-form-item prop="phone">
                 <el-input v-model="loginForm.phone" placeholder="请输入账号" prefix-icon="el-icon-user" clearable />
@@ -158,10 +155,10 @@ export default {
   .loginImg {
     width: 41%;
     height: 100%;
-    background-image: url("../../assets/images/loginBG.png");
-    background-size: 100% 100%;
-    background-position: center;
-    background-repeat: no-repeat;
+    // background-image: url("../../assets/images/loginBG.png");
+    // background-size: 100% 100%;
+    // background-position: center;
+    // background-repeat: no-repeat;
   }
 
   .loginBox {

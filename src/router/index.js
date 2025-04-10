@@ -41,7 +41,7 @@ const routes = [
         path: '/customerManagement',
         name: 'CustomerManagement',
         meta: {
-          title: '患者管理',
+          title: '客户管理',
           icon: 'el-icon-s-custom',
           menuId: 3
         },
@@ -51,7 +51,7 @@ const routes = [
         path: '/employeeManagement',
         name: 'EmployeeManagement',
         meta: {
-          title: '医师管理',
+          title: '员工管理',
           icon: 'el-icon-user',
           menuId: 4
         },
@@ -98,8 +98,6 @@ const RouterPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(to) {
   return RouterPush.call(this, to).catch(err => err)
 }
-
-// router/index.js 中的路由守卫修改如下:
 
 router.beforeEach((to, from, next) => {
   if (to.name === "main") {
