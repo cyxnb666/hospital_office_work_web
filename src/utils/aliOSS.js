@@ -1,4 +1,4 @@
-import request from '@/assets/request/index'
+import request from '@/request/index'
 
 /**
  * 获取OSS配置信息

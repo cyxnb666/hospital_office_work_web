@@ -37,12 +37,11 @@
   </div>
 </template>
 <script>
-import { loginOut, updatePassword } from '@/views/Login/api'
 export default {
   name: 'HeaderView',
   data() {
     return {
-      userName: '',
+      userName: 'Admin User', // 默认用户名
       dialogVisible: false,
       loading: false,
       submitForm: {
@@ -92,25 +91,13 @@ export default {
         if (valid) {
           this.loading = true;
 
-          const params = {
-            oldPassword: this.submitForm.password,
-            password: this.submitForm.newPassword,
-            userId: JSON.parse(sessionStorage.getItem('userInfo')).userId
-          }
-
-          updatePassword(params)
-            .then(() => {
-              this.$message.success('密码修改成功，请重新登录');
-              this.dialogVisible = false;
-              // 修改成功后退出登录
-              this.exitTheSystem('修改成功请重新登录');
-            })
-            .catch(() => {
-              this.$message.error('密码修改失败');
-            })
-            .finally(() => {
-              this.loading = false;
-            });
+          // 模拟密码修改过程，无实际API调用
+          setTimeout(() => {
+            this.$message.success('密码修改成功，请重新登录');
+            this.dialogVisible = false;
+            this.exitTheSystem('修改成功请重新登录');
+            this.loading = false;
+          }, 800);
         }
       });
     },
@@ -122,27 +109,20 @@ export default {
       }
     },
     exitTheSystem(text) {
-      loginOut().then(() => {
+      // 模拟退出登录过程，无实际API调用
+      setTimeout(() => {
         this.$message.success(text)
-        this.$router.push({ name: 'Login' })
         sessionStorage.clear()
-      }).catch(() => { })
+        this.$router.push({ name: 'Login' })
+      }, 300);
     }
-  },
-  computed: {
-    // your computed properties here
-  },
-  watch: {
-    // your watch properties here
   },
   created() {
+    // 从 sessionStorage 获取用户信息，如果没有则使用默认值
     const userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-    if (userInfo) {
+    if (userInfo && userInfo.userName) {
       this.userName = userInfo.userName;
     }
-  },
-  mounted() {
-    // your code here
   }
 }
 </script>

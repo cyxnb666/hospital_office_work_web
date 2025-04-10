@@ -27,9 +27,6 @@
 </template>
 
 <script>
-import { login, getUserInfo } from "./api";
-import { getAccessInfo } from '@/utils/aliOSS';
-
 export default {
   name: 'loginIndex',
   data() {
@@ -56,92 +53,48 @@ export default {
     };
   },
   methods: {
-    hasIntersection(roles, arr) {
-      return roles.filter(item => arr.includes(item)).length > 0;
-    },
-    getRouter(roles) {
-      const arr = this.$router.options.routes.filter((item) => {
-        return item.name === "main";
-      })[0].children;
-      if (arr?.length) {
-        return arr.filter(item => this.hasIntersection(roles, item.rolePermissions));
-      }
-    },
     onLogin() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true;
-          let tokenValue = '';
-          let userMenus = [];
 
-          login(this.loginForm)
-            .then(loginRes => {
-              tokenValue = loginRes.token;
-              sessionStorage.setItem('token', tokenValue);
-              return getAccessInfo();
-            })
-            .then(ossRes => {
-              sessionStorage.setItem('ossConfig', JSON.stringify(ossRes));
-              return getUserInfo(tokenValue);
-            })
-            .then(userInfo => {
-              sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
-              // 保存菜单列表
-              userMenus = userInfo.menuList || [];
-              sessionStorage.setItem('menuList', JSON.stringify(userMenus));
+          // 模拟登录过程，无需API调用
+          setTimeout(() => {
+            // 存储必要的模拟数据到sessionStorage
+            sessionStorage.setItem('token', 'template-token');
+            sessionStorage.setItem('userInfo', JSON.stringify({
+              userId: 1,
+              userName: 'Admin User'
+            }));
 
-              // 获取用户有权限的第一个菜单作为首页
-              const firstMenu = this.getFirstAvailableRoute(userMenus);
-              if (firstMenu) {
-                this.$router.push({ name: firstMenu });
-              } else {
-                throw new Error('用户没有可用的菜单权限');
-              }
+            // 存储所有菜单项，不做权限过滤
+            const allMenus = [
+              { menuId: 0, ordinal: 0 },
+              { menuId: 1, ordinal: 1 },
+              { menuId: 2, ordinal: 2 },
+              { menuId: 3, ordinal: 3 },
+              { menuId: 4, ordinal: 4 },
+              { menuId: 5, ordinal: 5 },
+              { menuId: 6, ordinal: 6 },
+              { menuId: 7, ordinal: 7 }
+            ];
+            sessionStorage.setItem('menuList', JSON.stringify(allMenus));
 
-              this.$message.success('登录成功');
-            })
-            .catch(error => {
-              console.error('登录失败:', error);
-              this.$message.error(error.message || '登录失败');
-            })
-            .finally(() => {
-              this.loading = false;
-            });
+            // 模拟OSS配置
+            sessionStorage.setItem('ossConfig', JSON.stringify({
+              bucketName: 'template-bucket',
+              endpoint: 'oss-template.example.com',
+              catalogue: 'uploads/'
+            }));
+
+            // 跳转到仪表盘页面
+            this.$router.push({ name: 'Dashboard' });
+            this.$message.success('登录成功');
+            this.loading = false;
+          }, 800);
         }
       });
-    },
-
-    // 根据ordinal获取第一个可用路由
-    getFirstAvailableRoute(menuList) {
-      if (!menuList || menuList.length === 0) return null;
-
-      // 根据 ordinal 排序菜单
-      const sortedMenus = [...menuList].sort((a, b) => a.ordinal - b.ordinal);
-
-      // 获取路由配置
-      const routes = this.$router.options.routes.find(
-        route => route.name === 'Main'
-      )?.children || [];
-
-      // 获取第一个有权限的路由name
-      const firstMenu = sortedMenus[0];
-      const matchedRoute = routes.find(route => route.meta?.menuId === firstMenu.menuId);
-
-      return matchedRoute?.name;
     }
-
-  },
-  computed: {
-    // your computed properties here
-  },
-  watch: {
-    // your watch properties here
-  },
-  created() {
-    // your code here
-  },
-  mounted() {
-    // your code here
   }
 };
 </script>
@@ -155,10 +108,8 @@ export default {
   .loginImg {
     width: 41%;
     height: 100%;
-    // background-image: url("../../assets/images/loginBG.png");
-    // background-size: 100% 100%;
-    // background-position: center;
-    // background-repeat: no-repeat;
+    // 可以添加自定义背景图
+    background-color: #f0f2f5;
   }
 
   .loginBox {
@@ -166,15 +117,6 @@ export default {
     height: 100%;
     padding: 20px 80px;
     box-sizing: border-box;
-
-    .loginLogo {
-      width: 100%;
-
-      .loginLogoImg {
-        width: 100px;
-        height: 30px;
-      }
-    }
 
     .loginContent {
       width: 100%;
@@ -195,7 +137,6 @@ export default {
           .loginForm {
             margin-top: 20px;
           }
-
         }
       }
     }
