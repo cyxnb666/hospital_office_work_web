@@ -449,7 +449,7 @@ export default {
     &-content {
       padding: 20px;
       box-sizing: border-box;
-      height: calc(100vh - 300px); // 设置合适的高度
+      height: calc(100vh - 130px);
     }
   }
 }

@@ -17,10 +17,10 @@
           </el-tabs>
           <el-divider v-else></el-divider>
           <div class="basicData" v-if="activeTab === '1'">
-            <div class="basicData-item">
+            <!-- <div class="basicData-item">
               <div class="label">出生年月</div>
               <div class="value">{{ details.birthday }}</div>
-            </div>
+            </div> -->
             <div class="basicData-item">
               <div class="label">年龄</div>
               <div class="value">{{ details.age }}岁</div>
@@ -29,21 +29,21 @@
               <div class="label">性别</div>
               <div class="value">{{ details.gender }}</div>
             </div>
-            <div class="basicData-item">
+            <!-- <div class="basicData-item">
               <div class="label">病历号</div>
               <div class="value">{{ details.medicalRecordNo }}</div>
-            </div>
-            <div class="basicData-item">
+            </div> -->
+            <!-- <div class="basicData-item">
               <div class="label">所在地区</div>
               <div class="value">{{ currentTopicInfo?.region || details.region }}</div>
-            </div>
-            <div class="basicData-item">
+            </div> -->
+            <!-- <div class="basicData-item">
               <div class="label">详细地址</div>
               <div class="value">{{ currentTopicInfo?.address || details.address }}</div>
-            </div>
+            </div> -->
             <div class="basicData-item">
               <div class="label">联系方式</div>
-              <div class="value">{{ currentTopicInfo?.phone || '-' }}</div>
+              <div class="value">{{ details?.phone || '-' }}</div>
             </div>
             <div class="basicData-item" v-if="showSuperintendent">
               <div class="label">负责人</div>
@@ -202,7 +202,7 @@
                 {{ scope.row.topicGroupName }}
               </template>
             </el-table-column>
-            <el-table-column prop="customerNo" label="序号" width="180" align="center">
+            <el-table-column prop="customerNo" label="登记号" width="180" align="center">
               <template #default="scope">
                 <template v-if="scope.row.customerNo">
                   {{ scope.row.customerNo }}

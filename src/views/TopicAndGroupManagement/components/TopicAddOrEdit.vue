@@ -279,6 +279,7 @@ export default {
         }
         this.submitForm = {
           ...data,
+          topicLeader: data.topicLeaderIds || [],
           topicPeriod: [startDate, endDate], // 只保留日期部分
           age: ageCondition?.configRangeArr || [20, 60],
           gender: genderValue
