@@ -16,7 +16,7 @@ module.exports = defineConfig({
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, HEAD',
       'Access-Control-Allow-Headers': '*'
     },
-    port: 8081,
+    port: 8080,
     compress: true,
     proxy: {
       '/api': {
