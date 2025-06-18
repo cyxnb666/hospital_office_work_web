@@ -11,7 +11,8 @@
           </div>
           <el-tabs v-if="type" v-model="activeTab" :stretch="true">
             <el-tab-pane label="基本信息" name="1"></el-tab-pane>
-            <el-tab-pane label="调查问卷" name="2" v-if="currentSurveyQuestion?.length && !details.hideQuestionnaire"></el-tab-pane>
+            <el-tab-pane label="调查问卷" name="2"
+              v-if="currentSurveyQuestion?.length && !details.hideQuestionnaire"></el-tab-pane>
             <el-tab-pane label="同意书" name="3" v-if="currentSignFileOssId"></el-tab-pane>
             <el-tab-pane label="上传报告" name="4" v-if="currentReportImages?.length"></el-tab-pane>
           </el-tabs>
@@ -51,18 +52,7 @@
             </div>
             <div class="basicData-item" v-if="showAudit">
               <div class="label">负责人</div>
-              <div class="value">
-                <template v-if="showAudit">
-                  <el-select v-model="administrator" style="width: 200px" :disabled="disableAudit">
-                    <el-option v-for="item in administratorOptions" :key="item.value" :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
-                </template>
-                <template v-else>
-                  {{ currentTopicInfo?.superintendent || '-' }}
-                </template>
-              </div>
+              <div class="value">{{ details.superintendentName || '-' }}</div>
             </div>
           </div>
           <div class="consentForm" v-if="activeTab === '2'">
@@ -310,7 +300,6 @@
 
 <script>
 import { getCustomerById, uploadReport, takeMedicine, terminateService, setCustomerNo, auditCustomer } from '../api'
-import { getUsersByPage } from '@/views/EmployeeManagement/api'
 
 export default {
   name: 'DetailsView',
@@ -358,8 +347,6 @@ export default {
       currentRow: null,
       fileList: [],
       rejectReason: '',
-      administratorOptions: [],
-      administrator: '',
     }
   },
   computed: {
@@ -444,17 +431,19 @@ export default {
       this.activeName = ''
       this.activeTab = '1'
       this.rejectReason = ''
-      this.administrator = ''
       this.dialogVisible = false
     },
     initialization(row) {
       this.dialogVisible = true
       this.loading = true
-      this.getAdministrators()
 
       const params = {
         customerId: row.customerId,
         topicId: row.topicId
+      }
+
+      if (row.topicCustomerId) {
+        params.topicCustomerId = row.topicCustomerId
       }
 
       getCustomerById(params).then(res => {
@@ -677,23 +666,6 @@ export default {
       return currentTopic?.enableFlag === '0'
     },
 
-    getAdministrators() {
-      getUsersByPage({
-        pageSize: 999,
-        pageIndex: 1,
-        condition: {}
-      }).then(res => {
-        this.administratorOptions = (res.items || [])
-          .filter(user => user.enableFlag === '1')
-          .map(user => ({
-            value: user.userId,
-            label: user.userName
-          }))
-      }).catch(() => {
-        this.$message.error('获取负责人列表失败')
-      })
-    },
-
     auditPass() {
       if (!this.administrator) {
         this.$message.warning('请选择负责人')
@@ -857,11 +829,13 @@ export default {
     .topic {
       width: 100%;
       overflow-x: auto;
+
       :deep(.el-radio-button__inner) {
-        border-left: 1px solid #DCDFE6;  // 确保左边框显示
+        border-left: 1px solid #DCDFE6; // 确保左边框显示
       }
     }
   }
+
   :deep(.el-button--text.is-disabled) {
     color: #c0c4cc !important;
   }
