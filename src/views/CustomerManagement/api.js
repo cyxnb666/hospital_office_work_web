@@ -59,7 +59,10 @@ export function takeMedicine(appointId) {
  */
 export function terminateService(topicCustomerId) {
     return request({
-        url: `/customer/terminateService/${topicCustomerId}`,
+        url: '/customer/terminateService',
+        data: {
+            topicCustomerId
+        },
         method: 'post'
     })
 }
