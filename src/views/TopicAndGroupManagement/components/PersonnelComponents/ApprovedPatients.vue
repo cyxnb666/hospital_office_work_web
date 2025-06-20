@@ -75,7 +75,7 @@
           <template slot-scope="scope">
             <el-button type="text" @click="handleDetail(scope.row)">详情</el-button>
             <el-button type="text" @click="handleFollowUpRecord(scope.row)">跟进记录</el-button>
-            <el-button type="text" @click="handleChangeFollowUpPerson(scope.row)">变更跟进人</el-button>
+            <el-button v-if="isAdmin" type="text" @click="handleChangeFollowUpPerson(scope.row)">变更跟进人</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -120,6 +120,7 @@ export default {
   },
   data() {
     return {
+      isAdmin: false,
       searchForm: {
         superintendentName: ''
       },
@@ -227,6 +228,10 @@ export default {
       // 重新加载当前页数据
       this.loadData()
     }
+  },
+  created() {
+    const userInfo = JSON.parse(sessionStorage.getItem('userInfo') || '{}');
+    this.isAdmin = !!userInfo.isAdmin;
   },
   watch: {
     topicId: {
