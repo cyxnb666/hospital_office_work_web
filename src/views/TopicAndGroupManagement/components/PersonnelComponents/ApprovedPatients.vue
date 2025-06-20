@@ -22,13 +22,55 @@
         </div>
       </div>
       <el-table :data="tableData" border style="width: 100%" height="250" v-loading="loading">
-        <el-table-column prop="customerName" label="患者名称" align="center" />
-        <el-table-column prop="superintendentName" label="跟进人" align="center" />
-        <el-table-column prop="customerNo" label="登记号" align="center" />
-        <el-table-column prop="age" label="年龄" align="center" />
-        <el-table-column prop="signUpTime" label="入组时间" align="center" />
-        <el-table-column prop="firstVisitTime" label="首次随访时间" align="center" />
-        <el-table-column prop="phone" label="联系方式" align="center" />
+        <el-table-column label="患者名称" align="center">
+          <template slot-scope="scope">
+            <span :style="{ color: scope.row.serviceStatus === '1' ? '#C0C4CC' : '' }">
+              {{ scope.row.customerName }}
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column label="跟进人" align="center">
+          <template slot-scope="scope">
+            <span :style="{ color: scope.row.serviceStatus === '1' ? '#C0C4CC' : '' }">
+              {{ scope.row.superintendentName }}
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column label="登记号" align="center">
+          <template slot-scope="scope">
+            <span :style="{ color: scope.row.serviceStatus === '1' ? '#C0C4CC' : '' }">
+              {{ scope.row.customerNo }}
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column label="年龄" align="center">
+          <template slot-scope="scope">
+            <span :style="{ color: scope.row.serviceStatus === '1' ? '#C0C4CC' : '' }">
+              {{ scope.row.age }}
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column label="入组时间" align="center">
+          <template slot-scope="scope">
+            <span :style="{ color: scope.row.serviceStatus === '1' ? '#C0C4CC' : '' }">
+              {{ scope.row.signUpTime }}
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column label="首次随访时间" align="center">
+          <template slot-scope="scope">
+            <span :style="{ color: scope.row.serviceStatus === '1' ? '#C0C4CC' : '' }">
+              {{ scope.row.firstVisitTime }}
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column label="联系方式" align="center">
+          <template slot-scope="scope">
+            <span :style="{ color: scope.row.serviceStatus === '1' ? '#C0C4CC' : '' }">
+              {{ scope.row.phone }}
+            </span>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" align="center" width="210">
           <template slot-scope="scope">
             <el-button type="text" @click="handleDetail(scope.row)">详情</el-button>
