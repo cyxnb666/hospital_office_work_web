@@ -450,6 +450,7 @@ export default {
         if (res) {
           this.details = {
             ...res.customerDetail,
+            topicCustomerId: row.topicCustomerId,
             topicId: row.topicId,
             hideQuestionnaire: row.hideQuestionnaire
           }
@@ -538,7 +539,8 @@ export default {
             // 刷新当前患者数据
             this.initialization({
               customerId: this.details.customerId,
-              topicId: this.details.topicId
+              topicId: this.details.topicId,
+              topicCustomerId: this.details.topicCustomerId
             })
           })
           .catch(() => { })
@@ -556,8 +558,11 @@ export default {
         terminateService(row.topicCustomerId)
           .then(() => {
             this.$message.success('服务已终止')
-            // 刷新当前患者数据
-            this.initialization({ customerId: this.details.customerId })
+            this.initialization({
+              customerId: this.details.customerId,
+              topicId: this.details.topicId,
+              topicCustomerId: this.details.topicCustomerId
+            })
           })
           .catch(() => {
             this.$message.error('终止服务失败')
@@ -595,7 +600,8 @@ export default {
       this.uploadDialogVisible = false
       this.initialization({
         customerId: this.details.customerId,
-        topicId: this.details.topicId
+        topicId: this.details.topicId,
+        topicCustomerId: this.details.topicCustomerId
       })
     },
 
@@ -648,7 +654,8 @@ export default {
           // 刷新当前患者数据
           this.initialization({
             customerId: this.details.customerId,
-            topicId: this.details.topicId
+            topicId: this.details.topicId,
+            topicCustomerId: this.details.topicCustomerId
           })
         })
         .catch(() => {
