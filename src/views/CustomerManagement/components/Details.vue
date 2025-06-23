@@ -245,7 +245,7 @@
                     上传报告
                   </el-button>
                   <el-button type="text" style="color: #ff4949" v-if="scope.row.stopServiceBtn"
-                    @click="handleStopService(scope.row)" :disabled="isTopicDisabled(scope.row)">
+                    @click="handleStopService(scope.row)" :disabled="isStopServiceDisabled(scope.row)">
                     终止服务
                   </el-button>
                 </template>
@@ -664,6 +664,13 @@ export default {
       if (!this.topicList || !this.activeName) return false
       const currentTopic = this.topicList.find(topic => topic.topicId === this.activeName)
       return currentTopic?.enableFlag === '0'
+    },
+    isStopServiceDisabled(row) {
+      if (this.isTopicDisabled(row)) {
+        return true
+      }
+
+      return this.details.reviewStatus !== '6'
     },
 
     auditPass() {
