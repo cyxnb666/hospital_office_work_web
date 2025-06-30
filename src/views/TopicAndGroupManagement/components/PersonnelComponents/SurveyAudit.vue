@@ -13,6 +13,12 @@
         <el-form-item>
           <el-button type="primary" @click="searchAudit">查询</el-button>
           <el-button @click="resetSearch">重置</el-button>
+          <el-button type="success" @click="handleBatchAudit('approve')" :disabled="!canAudit">
+            审核通过
+          </el-button>
+          <el-button type="danger" @click="handleBatchAudit('reject')" :disabled="!canAudit">
+            审核不通过
+          </el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -49,16 +55,6 @@
         :current-page="pagination.current" :page-sizes="[10, 20, 30, 40]" :page-size="pagination.size"
         layout="total, sizes, prev, pager, next, jumper" :total="pagination.total">
       </el-pagination>
-    </div>
-
-    <!-- 审核操作按钮 -->
-    <div class="audit-actions">
-      <el-button type="success" @click="handleBatchAudit('approve')" :disabled="!canAudit">
-        审核通过
-      </el-button>
-      <el-button type="danger" @click="handleBatchAudit('reject')" :disabled="!canAudit">
-        审核不通过
-      </el-button>
     </div>
 
     <!-- 跟进记录对话框 -->
@@ -298,16 +294,6 @@ export default {
     justify-content: flex-end;
     margin: 20px 0;
     flex-shrink: 0; // 防止分页组件被压缩
-  }
-
-  .audit-actions {
-    display: flex;
-    justify-content: center; // 居中显示审核按钮
-    align-items: center;
-    gap: 10px;
-    padding: 10px 0;
-    border-top: 1px solid #EBEEF5;
-    flex-shrink: 0; // 防止审核按钮区域被压缩
   }
 }
 </style>
